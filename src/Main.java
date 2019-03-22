@@ -26,12 +26,12 @@ public class Main {
             response = in.nextLine();
 
             Node nextRoom = currentRoom.getNeighbor(response);
-            if (nextRoom == null) {
+            if (nextRoom == null && !response.equalsIgnoreCase("quit")) {
                 System.out.println("You can't go to " + response + ", try again");
             } else {
                 currentRoom = nextRoom;
             }
 
-        } while (!response.equals("quit"));
+        } while (!response.equalsIgnoreCase("quit"));
     }
 }
