@@ -1,16 +1,17 @@
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class Graph {
 
-    private List<Node> nodes;
+    private HashMap<String, Node> nodes;
 
     public Graph() {
-        nodes = new ArrayList<>();
+        nodes = new HashMap<>();
     }
 
     public void addNode(String name) {
-        nodes.add(new Node(name));
+        nodes.put(name, new Node(name));
     }
 
     public void addDirectedEdge(String name1, String name2) {
@@ -27,30 +28,25 @@ public class Graph {
     }
 
     public Node getNode(String name) {
-        for (Node node : nodes) {
-            if (node.getName().equalsIgnoreCase(name)) {
-                return node;
-            }
-        }
-        return null;
+        return nodes.get(name);
     }
 
     public class Node {
         private String name;
-        private List<Node> neighbors;
+        private HashMap<String, Node> neighbors;
 
         private Node(String name) {
             this.name = name;
-            neighbors = new ArrayList<>();
+            neighbors = new HashMap<>();
         }
 
         private void addNeighbor(Node n) {
-            neighbors.add(n);
+            neighbors.put(n.getName(), n);
         }
 
         public String getNeighborNames() {
             String names = "";
-            for (Node n : neighbors) {
+            for (Node n : neighbors.values()) {
                 names += n.getName() + ", ";
             }
             if (names.length() > 2) return names.substring(0, names.length() - 2);
@@ -58,11 +54,7 @@ public class Graph {
         }
 
         public Node getNeighbor(String name) {
-            for (Node n : neighbors) {
-                if (n.getName().equalsIgnoreCase(name))
-                    return n;
-            }
-            return null;
+            return neighbors.get(name);
         }
 
         public String getName() {
