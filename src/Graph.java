@@ -53,7 +53,8 @@ public class Graph {
             for (Node n : neighbors) {
                 names += n.getName() + ", ";
             }
-            return names.substring(0, names.length() - 2);
+            if (names.length() > 2) return names.substring(0, names.length() - 2);
+            return "";
         }
 
         public Node getNeighbor(String name) {

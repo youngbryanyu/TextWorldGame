@@ -3,35 +3,40 @@ import java.util.Scanner;
 public class Main {
 
     public static void main(String[] args) {
-        Node root = new Node("hall");
+        Graph g = new Graph();
+        g.addNode("hall");
+        g.addNode("closet");
+        g.addNode("dungeon");
 
-        root.addNeighbor(new Node("closet"));
-        root.addNeighbor(new Node("bedroom"));
+        g.addDirectedEdge("hall", "dungeon");
+        g.addUndirectedEdge("hall", "closet");
 
-        root.getNeighbor("closet").addNeighbor(root);
-        root.getNeighbor("bedroom").addNeighbor(new Node("secret chamber"));
-        root.getNeighbor("bedroom").getNeighbor("secret chamber").addNeighbor(new Node("Canada"));
-        root.getNeighbor("bedroom").getNeighbor("secret chamber").addNeighbor(new Node("tilted towers"));
-        root.getNeighbor("bedroom").getNeighbor("secret chamber").getNeighbor("tilted towers").addNeighbor(root);
+        Graph.Node current = g.getNode("hall");
 
-        Node currentRoom = root;
         String response = "";
-        Scanner in = new Scanner(System.in);
+        Scanner s = new Scanner(System.in);
 
         do {
-            System.out.println("You are currently in the " + currentRoom.getName());
-            System.out.println("You can go to the: " + currentRoom.getNeighborNames());
+            System.out.println("You are in the " + current.getName());
+            System.out.print("What do you want to do? > ");
+            response = s.nextLine();
 
-            System.out.println("Type the name of the room you want to go to: ");
-            response = in.nextLine();
-
-            Node nextRoom = currentRoom.getNeighbor(response);
-            if (nextRoom == null && !response.equalsIgnoreCase("quit")) {
-                System.out.println("You can't go to " + response + ", try again");
+            if (response.length() >= 6 && response.substring(0, 6).equals("go to ")) {
+                String name = response.substring(6);
+                if (current.getNeighbor(name) != null) current = current.getNeighbor(name);
+            } else if (response.equals("look")) {
+                System.out.println("You can go to: " + current.getNeighborNames());
+            } else if (response.length() >= 9 && response.substring(0, 9).equals("add room ")) {
+                String name = response.substring(9);
+                g.addNode(name);
+                g.addDirectedEdge(current.getName(), name);
+            } else if (response.equals("quit")) {
+                // do nothing
             } else {
-                currentRoom = nextRoom;
+                System.out.println("Commands: \n-> go to <roomname> \n-> look \n-> add room <roomname> \n-> quit ");
             }
+            System.out.println();
+        } while (!response.equals("quit"));
 
-        } while (!response.equalsIgnoreCase("quit"));
     }
 }
