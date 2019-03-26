@@ -1,6 +1,4 @@
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 public class Graph {
 
@@ -10,8 +8,8 @@ public class Graph {
         nodes = new HashMap<>();
     }
 
-    public void addNode(String name) {
-        nodes.put(name, new Node(name));
+    public void addNode(String name, String description) {
+        nodes.put(name, new Node(name, description));
     }
 
     public void addDirectedEdge(String name1, String name2) {
@@ -33,10 +31,12 @@ public class Graph {
 
     public class Node {
         private String name;
+        private String description;
         private HashMap<String, Node> neighbors;
 
-        private Node(String name) {
+        private Node(String name, String description) {
             this.name = name;
+            this.description = description;
             neighbors = new HashMap<>();
         }
 
@@ -47,9 +47,9 @@ public class Graph {
         public String getNeighborNames() {
             String names = "";
             for (Node n : neighbors.values()) {
-                names += n.getName() + ", ";
+                names += "-> "+ n.getName() + " >> " + n.getDescription() + "\n";
             }
-            if (names.length() > 2) return names.substring(0, names.length() - 2);
+            if (names.length() > 2) return names.substring(0, names.length() - 1);
             return "";
         }
 
@@ -59,6 +59,14 @@ public class Graph {
 
         public String getName() {
             return name;
+        }
+
+        public String getDescription() {
+            return description;
+        }
+
+        public void setDescription(String description) {
+            this.description = description;
         }
     }
 }
