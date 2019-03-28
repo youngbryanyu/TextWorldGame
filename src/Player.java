@@ -16,10 +16,10 @@ public class Player {
     }
 
     public Item removeItem(String name) {
-        for (Item e : items) {
-            if (e.getName().equals(name)) {
-                items.remove(e);
-                return e;
+        for (Item item : items) {
+            if (item.getName().equals(name)) {
+                items.remove(item);
+                return item;
             }
         }
         return null;
