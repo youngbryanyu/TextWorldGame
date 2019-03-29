@@ -31,7 +31,7 @@ public class Main {
             if (words.length >= 2 && words[0].equals("go") && words[1].equals("to")) {
                 String name = response.substring(6);
                 if (player.getCurrentRoom().getNeighbor(name) != null) {
-                    player.setCurrentRoom(player.getCurrentRoom().getNeighbor(name));
+                    player.moveToRoom(name);
                 }
             } else if (response.equals("look")) {
                 System.out.println("You can go to: \n" + player.getCurrentRoom().getNeighborNames() + "\n");

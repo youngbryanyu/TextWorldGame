@@ -60,4 +60,13 @@ public class Player {
         currentRoom = newRoom;
     }
 
+    public boolean moveToRoom(String name) {
+        Level.Room room = currentRoom.getNeighbor(name);
+        if (room != null) {
+            setCurrentRoom(room);
+            return true;
+        }
+        return false;
+    }
+
 }
