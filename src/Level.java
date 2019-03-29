@@ -77,8 +77,8 @@ public class Level {
 
         public String displayItems() {
             String items = "";
-            for (Item e : this.items) {
-                items += e.getName() + " >> " + e.getDescription() + "\n";
+            for (Item item : this.items) {
+                items += "-> " + item.getName() + " >> " + item.getDescription() + "\n";
             }
             if (items.length() > 1) return items.substring(0, items.length() - 1);
             return items;
@@ -88,7 +88,7 @@ public class Level {
             items.add(new Item(name, ""));
         }
 
-        public void addItemn(String name, String description) {
+        public void addItem(String name, String description) {
             items.add(new Item(name, description));
         }
 

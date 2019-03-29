@@ -26,9 +26,9 @@ public class Player {
     }
 
     public boolean destroyItem(String name) {
-        for (Item e : items) {
-            if (e.getName().equals(name)) {
-                return items.remove(e);
+        for (Item item : items) {
+            if (item.getName().equals(name)) {
+                return items.remove(item);
             }
         }
         return false;
@@ -39,10 +39,14 @@ public class Player {
     }
 
     public void displayInventory() {
-        System.out.println("Items: ");
+        System.out.println("Items in Inventory: ");
+        if (items.size() == 0) {
+            System.out.println("(bag is empty)");
+            return;
+        }
         String inventory = "";
-        for (Item e : items) {
-            inventory += e.getName() + " >> " + e.getDescription() + "\n";
+        for (Item item : items) {
+            inventory += "-> " + item.getName() + " >> " + item.getDescription() + "\n";
         }
         if (inventory.length() > 1) inventory = inventory.substring(0, inventory.length() - 1);
         System.out.println(inventory);
