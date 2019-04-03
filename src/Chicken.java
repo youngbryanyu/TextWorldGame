@@ -17,6 +17,11 @@ public class Chicken extends Creature {
         HashMap<String, Level.Room> neighbors = currentRoom.getNeighbors();
         ArrayList<Level.Room> neighborList = new ArrayList<>(neighbors.values());
         int index = (int) (Math.random() * neighborList.size());
+        if (neighborList.size() == 0) return;
         move(neighborList.get(index));
+    }
+
+    public Level.Room getCurrentRoom() {
+        return currentRoom;
     }
 }

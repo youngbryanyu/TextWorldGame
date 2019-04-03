@@ -30,6 +30,12 @@ public class Level {
         return rooms.get(name);
     }
 
+    public Room getRandomRoom() {
+        ArrayList<Level.Room> roomList = new ArrayList<>(rooms.values());
+        int index = (int) (Math.random() * roomList.size());
+        return roomList.get(index);
+    }
+
     public class Room {
         private String name, description;
         private HashMap<String, Room> neighbors;

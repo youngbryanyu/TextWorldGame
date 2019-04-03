@@ -1,7 +1,9 @@
 public abstract class Creature {
-    Level.Room currentRoom;
+    private Level.Room currentRoom;
 
     public abstract void move(Level.Room nextRoom);
 
     public abstract void randomizeRoom();
+
+    public abstract Level.Room getCurrentRoom();
 }
