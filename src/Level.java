@@ -36,16 +36,23 @@ public class Level {
         return roomList.get(index);
     }
 
+    public ArrayList<Room> getRoomList() {
+        return new ArrayList<>(rooms.values());
+    }
+
+
     public class Room {
         private String name, description;
         private HashMap<String, Room> neighbors;
-        ArrayList<Item> items;
+        private ArrayList<Item> items;
+        private ArrayList<Chicken> chickens;
 
         private Room(String name, String description) {
             this.name = name;
             this.description = description;
             neighbors = new HashMap<>();
             items = new ArrayList<>();
+            chickens = new ArrayList<>();
         }
 
         public void addNeighbor(Room n) {
@@ -124,5 +131,19 @@ public class Level {
         public HashMap<String, Room> getNeighbors() {
             return neighbors;
         }
+
+        public void addNewChicken(Chicken c) {
+            chickens.add(c);
+        }
+
+        public ArrayList<Chicken> getChickens() {
+            return chickens;
+        }
+
+        public void removeChicken() {
+            if (chickens.size() > 0)
+                getChickens().remove(0);
+        }
+
     }
 }

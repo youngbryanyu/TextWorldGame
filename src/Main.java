@@ -22,10 +22,8 @@ public class Main {
         Player player = new Player("Yo Bunty", "ladies man");
         player.setCurrentRoom(level1.getRoom("hall"));
 
-        ArrayList<Chicken> chickens = new ArrayList<>();
-        for (int i = 0; i < 5; i++) {
-            Chicken c = new Chicken(level1.getRandomRoom());
-            chickens.add(c);
+        for (Level.Room room : level1.getRoomList()) {
+            room.addNewChicken(new Chicken(level1.getRandomRoom()));
         }
 
         String response = "";
@@ -44,12 +42,16 @@ public class Main {
                     player.moveToRoom(name);
                 }
                 int chickenCount = 0;
-                for (int i = 0; i < chickens.size(); i++) {
-                    Chicken c = chickens.get(i);
-                    c.randomizeRoom();
-                    if(c.getCurrentRoom().getName().equals(player.getCurrentRoom().getName())) chickenCount++;
+                for (Level.Room room : level1.getRoomList()) {
+                    ArrayList<Chicken> chickens = room.getChickens();
+                    for (int i = 0; i < chickens.size(); i++) {
+                        Chicken c = chickens.get(i);
+                        c.randomizeRoom();
+                        if (c.getCurrentRoom().getName().equals(player.getCurrentRoom().getName())) chickenCount++;
+                    }
                 }
-                if(chickenCount != 0) System.out.println("There are " + chickenCount + " chickens in the " + player.getCurrentRoom().getName());
+                if (chickenCount != 0)
+                    System.out.println("There are " + chickenCount + " chicken(s) in the " + player.getCurrentRoom().getName());
             } else if (response.equals("look")) {
                 System.out.println("You can go to: \n" + player.getCurrentRoom().getNeighborNames() + "\n");
                 System.out.print("Items in the room: \n" + player.getCurrentRoom().displayItems());
