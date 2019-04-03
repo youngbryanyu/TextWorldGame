@@ -114,5 +114,9 @@ public class Level {
             }
             return false;
         }
+
+        public HashMap<String, Room> getNeighbors() {
+            return neighbors;
+        }
     }
 }
