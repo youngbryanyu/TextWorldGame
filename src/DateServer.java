@@ -20,7 +20,6 @@ public class DateServer {
         out.println(date);
 
         System.out.println("[SERVER] Sent date. Closing.");
-
         listener.close();
         client.close();
     }
