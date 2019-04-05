@@ -45,14 +45,14 @@ public class Level {
         private String name, description;
         private HashMap<String, Room> neighbors;
         private ArrayList<Item> items;
-        private ArrayList<Chicken> chickens;
+        private ArrayList<Creature> creatures;
 
         private Room(String name, String description) {
             this.name = name;
             this.description = description;
             neighbors = new HashMap<>();
             items = new ArrayList<>();
-            chickens = new ArrayList<>();
+            creatures = new ArrayList<>();
         }
 
         public void addNeighbor(Room n) {
@@ -132,17 +132,45 @@ public class Level {
             return neighbors;
         }
 
-        public void addNewChicken(Chicken c) {
-            chickens.add(c);
+        public void createCreature(Creature c) {
+            creatures.add(c);
         }
 
-        public ArrayList<Chicken> getChickens() {
-            return chickens;
+        public ArrayList<Creature> getCreatures() {
+            return creatures;
         }
 
-        public void removeChicken() {
-            if (chickens.size() > 0)
-                getChickens().remove(0);
+        public void removeCreature(Creature creature) {
+            creatures.remove(creature);
+        }
+
+        public ArrayList<Room> getNonPlayerNeighbors(Player player) {
+            ArrayList<Room> neighbors = new ArrayList<>(getNeighbors().values());
+            ArrayList<Room> nonPlayerNeighbors = new ArrayList<>();
+            for (Room room : neighbors) {
+                if (!room.containsPlayer(room, player)){
+                    nonPlayerNeighbors.add(room);
+                }
+            }
+            return nonPlayerNeighbors;
+        }
+
+        public ArrayList<Room> getPlayerContainingNeighbors(Player player) {
+            ArrayList<Room> neighbors = new ArrayList<>(getNeighbors().values());
+            ArrayList<Room> nonPlayerNeighbors = new ArrayList<>();
+            for (Room room : neighbors) {
+                if (room.containsPlayer(room, player)){
+                    nonPlayerNeighbors.add(room);
+                }
+            }
+            return nonPlayerNeighbors;
+        }
+
+        public boolean containsPlayer(Room room, Player player) {
+            if (player.getCurrentRoom().equals(room)) {
+                return true;
+            }
+            return false;
         }
 
     }

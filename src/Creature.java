@@ -1,9 +1,22 @@
 public abstract class Creature {
     private Level.Room currentRoom;
 
-    public abstract void move(Level.Room nextRoom);
+    public void move(Level.Room nextRoom) {
+        this.currentRoom = nextRoom;
+    }
 
-    public abstract void randomizeRoom();
+    protected abstract void moveRandom();
 
-    public abstract Level.Room getCurrentRoom();
+    protected Level.Room getCurrentRoom(){
+        return currentRoom;
+    }
+
+    protected void moveToRoom(Level.Room nextRoom) {
+        currentRoom.removeCreature(this);
+        move(nextRoom);
+    }
+
+    protected void setRoom(Level.Room nextRoom){
+        this.currentRoom = nextRoom;
+    }
 }

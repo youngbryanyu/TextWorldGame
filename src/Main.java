@@ -23,7 +23,7 @@ public class Main {
         player.setCurrentRoom(level1.getRoom("hall"));
 
         for (Level.Room room : level1.getRoomList()) {
-            room.addNewChicken(new Chicken(level1.getRandomRoom()));
+            room.createCreature(new Chicken(level1.getRandomRoom()));
         }
 
         String response = "";
@@ -43,10 +43,10 @@ public class Main {
                 }
                 int chickenCount = 0;
                 for (Level.Room room : level1.getRoomList()) {
-                    ArrayList<Chicken> chickens = room.getChickens();
-                    for (int i = 0; i < chickens.size(); i++) {
-                        Chicken c = chickens.get(i);
-                        c.randomizeRoom();
+                    ArrayList<Creature> creatures = room.getCreatures();
+                    for (int i = 0; i < creatures.size(); i++) {
+                        Creature c = creatures.get(i);
+                        c.moveRandom();
                         if (c.getCurrentRoom().getName().equals(player.getCurrentRoom().getName())) chickenCount++;
                     }
                 }
