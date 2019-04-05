@@ -2,7 +2,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Popstar extends Creature{
-    private Level.Room currentRoom;
     private Player player;
 
     public Popstar(Level.Room currentRoom, Player player) {

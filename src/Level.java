@@ -167,7 +167,7 @@ public class Level {
         }
 
         public boolean containsPlayer(Room room, Player player) {
-            if (player.getCurrentRoom().equals(room)) {
+            if (player.getCurrentRoom().getName().equals(room.getName())) {
                 return true;
             }
             return false;

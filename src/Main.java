@@ -22,8 +22,15 @@ public class Main {
         Player player = new Player("Yo Bunty", "ladies man");
         player.setCurrentRoom(level1.getRoom("hall"));
 
-        for (Level.Room room : level1.getRoomList()) {
-            room.createCreature(new Chicken(level1.getRandomRoom()));
+        for (int i = 0; i < 15; i++) {
+            Level.Room room = level1.getRandomRoom();
+            int num = (int) (Math.random() * 3);
+            if (num == 0)
+                room.createCreature(new Chicken(room));
+            else if (num == 1)
+                room.createCreature(new Wumpus(room, player));
+            else
+                room.createCreature(new Popstar(room, player));
         }
 
         String response = "";
@@ -36,22 +43,50 @@ public class Main {
 
             String[] words = response.split(" ");
 
+            boolean playerMoved = false;
+            int chickenCount = 0;
+            int wumpusCount = 0;
+            int wumpusNearbyCount = 0;
+            int popstarCount = 0;
+            int popstarNearbyCount = 0;
+
             if (words.length >= 2 && words[0].equals("go") && words[1].equals("to") && response.length() >= 6) {
                 String name = response.substring(6);
                 if (player.getCurrentRoom().getNeighbor(name) != null) {
                     player.moveToRoom(name);
+                    playerMoved = true;
                 }
-                int chickenCount = 0;
-                for (Level.Room room : level1.getRoomList()) {
-                    ArrayList<Creature> creatures = room.getCreatures();
-                    for (int i = 0; i < creatures.size(); i++) {
-                        Creature c = creatures.get(i);
-                        c.moveRandom();
-                        if (c.getCurrentRoom().getName().equals(player.getCurrentRoom().getName())) chickenCount++;
+                if (playerMoved) {
+                    for (Level.Room room : level1.getRoomList()) {
+                        ArrayList<Creature> creatures = room.getCreatures();
+                        for (int i = 0; i < creatures.size(); i++) {
+                            Creature c = creatures.get(i);
+                            c.move();
+                            if (c.getCurrentRoom().equals(player.getCurrentRoom())) {
+                                if (c instanceof Chicken) chickenCount++;
+                                else if (c instanceof Wumpus) {
+                                    if (room.equals(player.getCurrentRoom())) wumpusCount++;
+                                    if (!room.equals(player.getCurrentRoom())) wumpusNearbyCount++;
+                                } else if (c instanceof Popstar && !room.equals(player.getCurrentRoom())) {
+                                    if (room.equals(player.getCurrentRoom())) popstarCount++;
+                                    if (!room.equals(player.getCurrentRoom())) popstarNearbyCount++;
+                                }
+                            }
+                        }
                     }
+                    if (chickenCount != 0)
+                        System.out.println("There is " + chickenCount + " chicken(s) in the " + player.getCurrentRoom().getName());
+                    if (wumpusNearbyCount != 0)
+                        System.out.println("There is " + wumpusNearbyCount + " wumpus(es) nearby");
+                    if (wumpusCount != 0)
+                        System.out.println("There is " + wumpusCount + " wumpus(es) in the " + player.getCurrentRoom().getName());
+                    if (popstarNearbyCount != 0)
+                        System.out.println("There is " + popstarNearbyCount + " popstar(s) nearby");
+                    if (popstarCount != 0)
+                        System.out.println("There is " + wumpusCount + " popstar(s) in the " + player.getCurrentRoom().getName());
+
                 }
-                if (chickenCount != 0)
-                    System.out.println("There are " + chickenCount + " chicken(s) in the " + player.getCurrentRoom().getName());
+                ////////
             } else if (response.equals("look")) {
                 System.out.println("You can go to: \n" + player.getCurrentRoom().getNeighborNames() + "\n");
                 System.out.print("Items in the room: \n" + player.getCurrentRoom().displayItems());

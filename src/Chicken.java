@@ -3,8 +3,6 @@ import java.util.HashMap;
 
 public class Chicken extends Creature {
 
-    private Level.Room currentRoom;
-
     public Chicken(Level.Room currentRoom) {
         this.currentRoom = currentRoom;
     }

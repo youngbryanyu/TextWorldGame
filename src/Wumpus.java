@@ -2,7 +2,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Wumpus extends Creature {
-    private Level.Room currentRoom;
     private Player player;
 
     public Wumpus(Level.Room currentRoom, Player player) {
