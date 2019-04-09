@@ -1,6 +1,3 @@
-import java.util.ArrayList;
-import java.util.HashMap;
-
 public class Popstar extends Creature {
     private Player player;
 
@@ -10,24 +7,12 @@ public class Popstar extends Creature {
     }
 
     public void act() {
-        HashMap<String, Level.Room> neighbors = currentRoom.getNeighbors();
-        if (neighbors.containsValue(player.getCurrentRoom())) {
-            moveTowardsPlayer();
+        if (currentRoom.getPlayerContainingNeighbors(player).size() > 0) {
+            moveToRoom(currentRoom.getRandomNeighbor(currentRoom.getPlayerContainingNeighbors(player)));
+        } else if (currentRoom.getCommonNeighborsWithPlayer(player).size() > 0) {
+            moveToRoom(currentRoom.getRandomNeighbor(currentRoom.getCommonNeighborsWithPlayer(player)));
         } else {
-            getRandomNeighbor();
+            moveToRoom(getRandomNeighbor());
         }
     }
-
-    public Level.Room getRandomNeighbor() {
-        return currentRoom.getRandomNeighbor();
-    }
-
-    public void moveTowardsPlayer() {
-        ArrayList<Level.Room> nonPlayerNeighbors = currentRoom.getPlayerContainingNeighbors(player);
-        int index = (int) (Math.random() * nonPlayerNeighbors.size());
-        if (nonPlayerNeighbors.size() == 0) return;
-        moveToRoom(nonPlayerNeighbors.get(index));
-    }
-
-
 }

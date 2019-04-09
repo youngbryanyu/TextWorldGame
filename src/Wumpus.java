@@ -7,7 +7,6 @@ public class Wumpus extends Creature {
     }
 
     public void act() {
-        // TODO: find neighbors
         if (currentRoom.getNonPlayerNeighbors(player).size() > 0) {
             moveToRoom(currentRoom.getRandomNeighbor(currentRoom.getNonPlayerNeighbors(player)));
         } else if (currentRoom.getNonCommonNeighborsWithPlayer(player).size() > 0) {
