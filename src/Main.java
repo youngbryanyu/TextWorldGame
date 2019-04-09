@@ -4,34 +4,22 @@ import java.util.Scanner;
 public class Main {
 
     public static void main(String[] args) {
-        Level level1 = new Level();
-        level1.addRoom("hall", "a really long, big black... hallway");
-        level1.addRoom("closet", "there is nothing in the closet");
-        level1.addRoom("dungeon", "it is very dark and cold here...");
-        level1.addRoom("your mom's bedroom", "it's sexy time");
+        Level level = new Level();
+        level.addRoom("hall", "a really long, big black... hallway");
+        level.addRoom("closet", "there is nothing in the closet");
+        level.addRoom("dungeon", "it is very dark and cold here...");
+        level.addRoom("your mom's bedroom", "it's sexy time");
 
-        level1.addUndirectedEdge("hall", "dungeon");
-        level1.addUndirectedEdge("hall", "closet");
-        level1.addUndirectedEdge("dungeon", "your mom's bedroom");
+        level.addUndirectedEdge("hall", "dungeon");
+        level.addUndirectedEdge("hall", "closet");
+        level.addUndirectedEdge("dungeon", "your mom's bedroom");
 
-        level1.getRoom("hall").addItem("samosa", "delicious");
-        level1.getRoom("closet").addItem("gun", "i have big guns");
-        level1.getRoom("dungeon").addItem("mini-bunty", "he looks chindian");
-        level1.getRoom("your mom's bedroom").addItem("trojan", "protection");
+        level.getRoom("hall").addItem("samosa", "delicious");
+        level.getRoom("closet").addItem("gun", "i have big guns");
 
         Player player = new Player("Yo Bunty", "ladies man");
-        player.setCurrentRoom(level1.getRoom("hall"));
-
-        for (int i = 0; i < 15; i++) {
-            Level.Room room = level1.getRandomRoom();
-            int num = (int) (Math.random() * 3);
-            if (num == 0)
-                room.createCreature(new Chicken(room));
-            else if (num == 1)
-                room.createCreature(new Wumpus(room, player));
-            else
-                room.createCreature(new Popstar(room, player));
-        }
+        player.setCurrentRoom(level.getRoom("hall"));
+        createRandomCreatures(level, 10, player);
 
         String response = "";
         Scanner s = new Scanner(System.in);
@@ -44,11 +32,6 @@ public class Main {
             String[] words = response.split(" ");
 
             boolean playerMoved = false;
-            int chickenCount = 0;
-            int wumpusCount = 0;
-            int wumpusNearbyCount = 0;
-            int popstarCount = 0;
-            int popstarNearbyCount = 0;
 
             if (words.length >= 2 && words[0].equals("go") && words[1].equals("to") && response.length() >= 6) {
                 String name = response.substring(6);
@@ -57,36 +40,8 @@ public class Main {
                     playerMoved = true;
                 }
                 if (playerMoved) {
-                    for (Level.Room room : level1.getRoomList()) {
-                        ArrayList<Creature> creatures = room.getCreatures();
-                        for (int i = 0; i < creatures.size(); i++) {
-                            Creature c = creatures.get(i);
-                            c.move();
-                            if (c.getCurrentRoom().equals(player.getCurrentRoom())) {
-                                if (c instanceof Chicken) chickenCount++;
-                                else if (c instanceof Wumpus) {
-                                    if (room.equals(player.getCurrentRoom())) wumpusCount++;
-                                    if (!room.equals(player.getCurrentRoom())) wumpusNearbyCount++;
-                                } else if (c instanceof Popstar && !room.equals(player.getCurrentRoom())) {
-                                    if (room.equals(player.getCurrentRoom())) popstarCount++;
-                                    if (!room.equals(player.getCurrentRoom())) popstarNearbyCount++;
-                                }
-                            }
-                        }
-                    }
-                    if (chickenCount != 0)
-                        System.out.println("There is " + chickenCount + " chicken(s) in the " + player.getCurrentRoom().getName());
-                    if (wumpusNearbyCount != 0)
-                        System.out.println("There is " + wumpusNearbyCount + " wumpus(es) nearby");
-                    if (wumpusCount != 0)
-                        System.out.println("There is " + wumpusCount + " wumpus(es) in the " + player.getCurrentRoom().getName());
-                    if (popstarNearbyCount != 0)
-                        System.out.println("There is " + popstarNearbyCount + " popstar(s) nearby");
-                    if (popstarCount != 0)
-                        System.out.println("There is " + wumpusCount + " popstar(s) in the " + player.getCurrentRoom().getName());
-
+                    updateAllCreatures(level);
                 }
-                ////////
             } else if (response.equals("look")) {
                 System.out.println("You can go to: \n" + player.getCurrentRoom().getNeighborNames() + "\n");
                 System.out.print("Items in the room: \n" + player.getCurrentRoom().displayItems());
@@ -95,8 +50,8 @@ public class Main {
                 } else System.out.println();
             } else if (words.length >= 2 && words[0].equals("add") && words[1].equals("room") && response.length() >= 9) {
                 String name = response.substring(9);
-                level1.addRoom(name, "");
-                level1.addUndirectedEdge(player.getCurrentRoom().getName(), name);
+                level.addRoom(name, "");
+                level.addUndirectedEdge(player.getCurrentRoom().getName(), name);
             } else if (words.length >= 1 && words[0].equals("take") && response.length() >= 5) {
                 String name = response.substring(5);
                 Item item = player.getCurrentRoom().removeItem(name);
@@ -114,6 +69,28 @@ public class Main {
             }
             System.out.println();
         } while (!response.equals("quit"));
-
     }
+
+    public static void updateAllCreatures(Level level) {
+        for (Level.Room room : level.getRoomList()) {
+            ArrayList<Creature> creatures = room.getCreatures();
+            for (int i = 0; i < creatures.size(); i++) {
+                creatures.get(i).act();
+            }
+        }
+    }
+
+    public static void createRandomCreatures(Level level, int numCreatures, Player player) {
+        for (int i = 0; i < numCreatures; i++) {
+            Level.Room room = level.getRandomRoom();
+            int num = (int) (Math.random() * 3);
+            if (num == 0)
+                room.createCreature(new Chicken(room));
+            else if (num == 1)
+                room.createCreature(new Wumpus(room, player));
+            else
+                room.createCreature(new Popstar(room, player));
+        }
+    }
+
 }
