@@ -1,15 +1,15 @@
 public abstract class Creature {
     protected Level.Room currentRoom;
 
-    public abstract void move();
+    public abstract void act();
 
-    protected abstract void moveRandom();
-
-    protected Level.Room getCurrentRoom() {
-        return currentRoom;
-    }
-
-    protected void setRoom(Level.Room nextRoom) {
+    protected void moveToRoom(Level.Room nextRoom) {
         this.currentRoom = nextRoom;
     }
+
+    protected Level.Room getRandomNeighbor() {
+        return currentRoom.getRandomNeighbor();
+    }
+
+
 }

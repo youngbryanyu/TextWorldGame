@@ -148,7 +148,7 @@ public class Level {
             ArrayList<Room> neighbors = new ArrayList<>(getNeighbors().values());
             ArrayList<Room> nonPlayerNeighbors = new ArrayList<>();
             for (Room room : neighbors) {
-                if (!room.containsPlayer(room, player)){
+                if (!room.containsPlayer(room, player)) {
                     nonPlayerNeighbors.add(room);
                 }
             }
@@ -157,13 +157,13 @@ public class Level {
 
         public ArrayList<Room> getPlayerContainingNeighbors(Player player) {
             ArrayList<Room> neighbors = new ArrayList<>(getNeighbors().values());
-            ArrayList<Room> nonPlayerNeighbors = new ArrayList<>();
+            ArrayList<Room> playerContainingNeighbors = new ArrayList<>();
             for (Room room : neighbors) {
-                if (room.containsPlayer(room, player)){
-                    nonPlayerNeighbors.add(room);
+                if (room.containsPlayer(room, player)) {
+                    playerContainingNeighbors.add(room);
                 }
             }
-            return nonPlayerNeighbors;
+            return playerContainingNeighbors;
         }
 
         public boolean containsPlayer(Room room, Player player) {
@@ -173,5 +173,45 @@ public class Level {
             return false;
         }
 
+        public Level.Room getRandomNeighbor() {
+            ArrayList<Level.Room> neighborList = new ArrayList<>(getNeighbors().values());
+            int index = (int) (Math.random() * neighborList.size());
+            if (neighborList.size() == 0) return null;
+            return neighborList.get(index);
+        }
+
+        public Room getRandomNeighbor(ArrayList<Room> neighbors){
+            int index = (int) (Math.random() * neighbors.size());
+            if (neighbors.size() == 0) return null;
+            return neighbors.get(index);
+        }
+
+        public ArrayList<Room> getCommonNeighborsWithPlayer(Player player) {
+            ArrayList<Room> commonNeighbors = new ArrayList<>();
+            ArrayList<Room> currentNeighbors = new ArrayList<>(getNeighbors().values());
+            ArrayList<Room> playerNeighbors = new ArrayList<>(player.getCurrentRoom().getNeighbors().values());
+            for (Room room1 : currentNeighbors) {
+                for (Room room2 : playerNeighbors) {
+                    if (room1.equals(room2)) {
+                        commonNeighbors.add(room1);
+                    }
+                }
+            }
+            return commonNeighbors;
+        }
+
+        public ArrayList<Room> getNonCommonNeighborsWithPlayer(Player player) {
+            ArrayList<Room> nonCommonNeighbors = new ArrayList<>();
+            ArrayList<Room> currentNeighbors = new ArrayList<>(getNeighbors().values());
+            ArrayList<Room> playerNeighbors = new ArrayList<>(player.getCurrentRoom().getNeighbors().values());
+            for (Room room1 : currentNeighbors) {
+                for (Room room2 : playerNeighbors) {
+                    if (!room1.equals(room2)) {
+                        nonCommonNeighbors.add(room1);
+                    }
+                }
+            }
+            return nonCommonNeighbors;
+        }
     }
 }
