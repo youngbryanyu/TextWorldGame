@@ -180,10 +180,10 @@ public class Level {
             return neighborList.get(index);
         }
 
-        public Room getRandomNeighbor(ArrayList<Room> neighbors){
-            int index = (int) (Math.random() * neighbors.size());
-            if (neighbors.size() == 0) return null;
-            return neighbors.get(index);
+        public Room getRandomNeighbor(ArrayList<Room> specificNeighbors){
+            int index = (int) (Math.random() * specificNeighbors.size());
+            if (specificNeighbors.size() == 0) return null;
+            return specificNeighbors.get(index);
         }
 
         public ArrayList<Room> getCommonNeighborsWithPlayer(Player player) {
