@@ -58,6 +58,16 @@ public class Level {
         room.createCreature(new Wumpus(room, player));
     }
 
+
+    public void updateAllCreatures() {
+        for (Level.Room room : getRooms()) {
+            ArrayList<Creature> creatures = room.getCreatures();
+            for (Creature c : creatures) {
+                c.act();
+            }
+        }
+    }
+
     public class Room {
         private String name, description;
         private HashMap<String, Room> neighbors;
@@ -246,7 +256,7 @@ public class Level {
             updateCreatureCount(c);
         }
 
-        private void updateCreatureCount(Creature c){
+        private void updateCreatureCount(Creature c) {
             if (c instanceof Chicken) {
                 numChickens++;
             } else if (c instanceof Wumpus) {

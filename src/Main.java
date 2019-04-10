@@ -40,7 +40,7 @@ public class Main {
                     playerMoved = true;
                 }
                 if (playerMoved) {
-                    updateAllCreatures(level);
+                    level.updateAllCreatures();
                 }
             } else if (response.equals("look")) {
                 System.out.println("You can go to: \n" + player.getCurrentRoom().getNeighborNames() + "\n");
@@ -69,15 +69,6 @@ public class Main {
             }
             System.out.println();
         } while (!response.equals("quit"));
-    }
-
-    public static void updateAllCreatures(Level level) {
-        for (Level.Room room : level.getRooms()) {
-            ArrayList<Creature> creatures = room.getCreatures();
-            for (int i = 0; i < creatures.size(); i++) {
-                creatures.get(i).act();
-            }
-        }
     }
 
     // TODO: Maybe move this somewhere else?
