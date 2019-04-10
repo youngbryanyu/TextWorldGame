@@ -4,7 +4,8 @@ import java.util.Scanner;
 public class Main {
 
     public static void main(String[] args) {
-        Level level = new Level();
+        Player player = new Player("Yo Bunty", "ladies man");
+        Level level = new Level(player);
         level.addRoom("hall", "a really long, big black... hallway");
         level.addRoom("closet", "there is nothing in the closet");
         level.addRoom("dungeon", "it is very dark and cold here...");
@@ -17,7 +18,6 @@ public class Main {
         level.getRoom("hall").addItem("samosa", "delicious");
         level.getRoom("closet").addItem("gun", "i have big guns");
 
-        Player player = new Player("Yo Bunty", "ladies man");
         player.setCurrentRoom(level.getRoom("hall"));
         createRandomCreatures(level, 10, player);
 
@@ -72,7 +72,7 @@ public class Main {
     }
 
     public static void updateAllCreatures(Level level) {
-        for (Level.Room room : level.getRoomList()) {
+        for (Level.Room room : level.getRooms()) {
             ArrayList<Creature> creatures = room.getCreatures();
             for (int i = 0; i < creatures.size(); i++) {
                 creatures.get(i).act();
@@ -80,6 +80,7 @@ public class Main {
         }
     }
 
+    // TODO: Maybe move this somewhere else?
     public static void createRandomCreatures(Level level, int numCreatures, Player player) {
         for (int i = 0; i < numCreatures; i++) {
             Level.Room room = level.getRandomRoom();

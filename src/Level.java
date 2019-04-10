@@ -4,9 +4,11 @@ import java.util.HashMap;
 public class Level {
 
     private HashMap<String, Room> rooms;
+    private Player player;
 
-    public Level() {
+    public Level(Player player) {
         rooms = new HashMap<>();
+        this.player = player;
     }
 
     public void addRoom(String name, String description) {
@@ -36,16 +38,32 @@ public class Level {
         return roomList.get(index);
     }
 
-    public ArrayList<Room> getRoomList() {
+
+    public ArrayList<Room> getRooms() {
         return new ArrayList<>(rooms.values());
     }
 
+    public void createRandomChickens(int numChickens) {
+        for (int i = 0; i < numChickens; i++) {
+            Room room = getRandomRoom();
+            room.createCreature(new Chicken(room));
+        }
+    }
+
+    public void createPopStar(Room room) {
+        room.createCreature(new Popstar(room, player));
+    }
+
+    public void createWumpus(Room room) {
+        room.createCreature(new Wumpus(room, player));
+    }
 
     public class Room {
         private String name, description;
         private HashMap<String, Room> neighbors;
         private ArrayList<Item> items;
         private ArrayList<Creature> creatures;
+        private int numChickens, numPopstars, numWumpuses;
 
         private Room(String name, String description) {
             this.name = name;
@@ -53,6 +71,9 @@ public class Level {
             neighbors = new HashMap<>();
             items = new ArrayList<>();
             creatures = new ArrayList<>();
+            numChickens = 0;
+            numPopstars = 0;
+            numWumpuses = 0;
         }
 
         public void addNeighbor(Room n) {
@@ -67,6 +88,15 @@ public class Level {
             if (names.length() > 1) return names.substring(0, names.length() - 1);
             return "";
         }
+
+        public void displayNeighbors() {
+            System.out.println(getNeighborNames());
+        }
+
+        public void displayCreatures() {
+            System.out.println();
+        }
+
 
         public Room getNeighbor(String name) {
             return neighbors.get(name);
@@ -132,19 +162,29 @@ public class Level {
             return neighbors;
         }
 
-        public void createCreature(Creature c) {
-            creatures.add(c);
-        }
-
         public ArrayList<Creature> getCreatures() {
             return creatures;
         }
 
-        public void removeCreature(Creature creature) {
-            creatures.remove(creature);
+        public void removeCreature(Creature c) {
+            creatures.remove(c);
+            updateCreatureCount(c);
         }
 
-        public ArrayList<Room> getNonPlayerNeighbors(Player player) {
+        public Level.Room getRandomNeighbor() {
+            ArrayList<Level.Room> neighborList = new ArrayList<>(getNeighbors().values());
+            int index = (int) (Math.random() * neighborList.size());
+            if (neighborList.size() == 0) return null;
+            return neighborList.get(index);
+        }
+
+        public Room getRandomNeighbor(ArrayList<Room> specificNeighbors) {
+            int index = (int) (Math.random() * specificNeighbors.size());
+            if (specificNeighbors.size() == 0) return null;
+            return specificNeighbors.get(index);
+        }
+
+        public ArrayList<Room> getNonPlayerNeighbors() {
             ArrayList<Room> neighbors = new ArrayList<>(getNeighbors().values());
             ArrayList<Room> nonPlayerNeighbors = new ArrayList<>();
             for (Room room : neighbors) {
@@ -155,7 +195,7 @@ public class Level {
             return nonPlayerNeighbors;
         }
 
-        public ArrayList<Room> getPlayerContainingNeighbors(Player player) {
+        public ArrayList<Room> getPlayerContainingNeighbors() {
             ArrayList<Room> neighbors = new ArrayList<>(getNeighbors().values());
             ArrayList<Room> playerContainingNeighbors = new ArrayList<>();
             for (Room room : neighbors) {
@@ -173,20 +213,7 @@ public class Level {
             return false;
         }
 
-        public Level.Room getRandomNeighbor() {
-            ArrayList<Level.Room> neighborList = new ArrayList<>(getNeighbors().values());
-            int index = (int) (Math.random() * neighborList.size());
-            if (neighborList.size() == 0) return null;
-            return neighborList.get(index);
-        }
-
-        public Room getRandomNeighbor(ArrayList<Room> specificNeighbors){
-            int index = (int) (Math.random() * specificNeighbors.size());
-            if (specificNeighbors.size() == 0) return null;
-            return specificNeighbors.get(index);
-        }
-
-        public ArrayList<Room> getCommonNeighborsWithPlayer(Player player) {
+        public ArrayList<Room> getCommonNeighborsWithPlayer() {
             ArrayList<Room> commonNeighbors = new ArrayList<>();
             ArrayList<Room> currentNeighbors = new ArrayList<>(getNeighbors().values());
             ArrayList<Room> playerNeighbors = new ArrayList<>(player.getCurrentRoom().getNeighbors().values());
@@ -200,7 +227,7 @@ public class Level {
             return commonNeighbors;
         }
 
-        public ArrayList<Room> getNonCommonNeighborsWithPlayer(Player player) {
+        public ArrayList<Room> getNonCommonNeighborsWithPlayer() {
             ArrayList<Room> nonCommonNeighbors = new ArrayList<>();
             ArrayList<Room> currentNeighbors = new ArrayList<>(getNeighbors().values());
             ArrayList<Room> playerNeighbors = new ArrayList<>(player.getCurrentRoom().getNeighbors().values());
@@ -212,6 +239,21 @@ public class Level {
                 }
             }
             return nonCommonNeighbors;
+        }
+
+        public void createCreature(Creature c) {
+            creatures.add(c);
+            updateCreatureCount(c);
+        }
+
+        private void updateCreatureCount(Creature c){
+            if (c instanceof Chicken) {
+                numChickens++;
+            } else if (c instanceof Wumpus) {
+                numWumpuses++;
+            } else if (c instanceof Popstar) {
+                numPopstars++;
+            }
         }
     }
 }

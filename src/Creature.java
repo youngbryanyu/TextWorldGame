@@ -10,6 +10,4 @@ public abstract class Creature {
     protected Level.Room getRandomNeighbor() {
         return currentRoom.getRandomNeighbor();
     }
-
-
 }

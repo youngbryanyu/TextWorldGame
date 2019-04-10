@@ -1,16 +1,14 @@
 public class Wumpus extends Creature {
-    private Player player;
 
     public Wumpus(Level.Room currentRoom, Player player) {
         this.currentRoom = currentRoom;
-        this.player = player;
     }
 
     public void act() {
-        if (currentRoom.getNonPlayerNeighbors(player).size() > 0) {
-            moveToRoom(currentRoom.getRandomNeighbor(currentRoom.getNonPlayerNeighbors(player)));
-        } else if (currentRoom.getNonCommonNeighborsWithPlayer(player).size() > 0) {
-            moveToRoom(currentRoom.getRandomNeighbor(currentRoom.getNonCommonNeighborsWithPlayer(player)));
+        if (currentRoom.getNonPlayerNeighbors().size() > 0) {
+            moveToRoom(currentRoom.getRandomNeighbor(currentRoom.getNonPlayerNeighbors()));
+        } else if (currentRoom.getNonCommonNeighborsWithPlayer().size() > 0) {
+            moveToRoom(currentRoom.getRandomNeighbor(currentRoom.getNonCommonNeighborsWithPlayer()));
         } else {
             moveToRoom(getRandomNeighbor());
         }
