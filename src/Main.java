@@ -19,7 +19,7 @@ public class Main {
         level.getRoom("closet").addItem("gun", "i have big guns");
 
         player.setCurrentRoom(level.getRoom("hall"));
-        createRandomCreatures(level, 10, player);
+        level.createRandomCreatures(10);
 
         String response = "";
         Scanner s = new Scanner(System.in);
@@ -70,19 +70,4 @@ public class Main {
             System.out.println();
         } while (!response.equals("quit"));
     }
-
-    // TODO: Maybe move this somewhere else?
-    public static void createRandomCreatures(Level level, int numCreatures, Player player) {
-        for (int i = 0; i < numCreatures; i++) {
-            Level.Room room = level.getRandomRoom();
-            int num = (int) (Math.random() * 3);
-            if (num == 0)
-                room.createCreature(new Chicken(room));
-            else if (num == 1)
-                room.createCreature(new Wumpus(room, player));
-            else
-                room.createCreature(new Popstar(room, player));
-        }
-    }
-
 }

@@ -46,9 +46,14 @@ public class Level {
     public void createRandomChickens(int numChickens) {
         for (int i = 0; i < numChickens; i++) {
             Room room = getRandomRoom();
-            room.createCreature(new Chicken(room));
+            createChicken(room);
         }
     }
+
+    public void createChicken(Room room){
+        room.createCreature(new Chicken(room));
+    }
+
 
     public void createPopStar(Room room) {
         room.createCreature(new Popstar(room, player));
@@ -56,6 +61,19 @@ public class Level {
 
     public void createWumpus(Room room) {
         room.createCreature(new Wumpus(room, player));
+    }
+
+    public void createRandomCreatures(int numCreatures) {
+        for (int i = 0; i < numCreatures; i++) {
+            Level.Room room = getRandomRoom();
+            int num = (int) (Math.random() * 3);
+            if (num == 0)
+                createChicken(room);
+            else if (num == 1)
+                createWumpus(room);
+            else
+                createPopStar(room);
+        }
     }
 
 
