@@ -50,7 +50,7 @@ public class Level {
         }
     }
 
-    public void createChicken(Room room){
+    public void createChicken(Room room) {
         room.createCreature(new Chicken(room));
     }
 
@@ -84,6 +84,10 @@ public class Level {
                 c.act();
             }
         }
+    }
+
+    public Player getPlayer() {
+        return player;
     }
 
     public class Room {

@@ -15,6 +15,15 @@ public class Player {
         items.add(item);
     }
 
+    public boolean takeItem(String name) {
+        Item item = currentRoom.removeItem(name);
+        if (item != null) {
+            items.add(item);
+            return true;
+        }
+        return false;
+    }
+
     public Item removeItem(String name) {
         for (Item item : items) {
             if (item.getName().equals(name)) {
