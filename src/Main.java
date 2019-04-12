@@ -6,17 +6,10 @@ public class Main {
     private static Level level;
     private static Player player;
 
-    public static String getFirstRoom(String input) {
-        return input.substring(input.indexOf(" ") + 1, input.indexOf(" and "));
-    }
-
-    public static String getSecondRoom(String input) {
-        return input.substring(input.indexOf(" and ") + 5);
-    }
-
     public static void main(String[] args) {
         player = new Player("yo", "bunty");
         level = new Level(player);
+        initiateLevel();
 
         commands = new HashMap<>();
         initCommands();
@@ -25,7 +18,7 @@ public class Main {
         Scanner input = new Scanner(System.in);
 
         do {
-            System.out.println("> ");
+            System.out.print("> ");
             response = input.nextLine();
 
             Command command = lookUpCommand(response); // init
@@ -58,6 +51,13 @@ public class Main {
         String[] words = response.split(" ");
         if (words.length > 0) return words[0];
         return "";
+    }
+
+    private static void initiateLevel() {
+        level.addRoom("hall", "...");
+        level.addRoom("bedroom", "sleep here");
+        level.addUndirectedEdge("hall", "bedroom");
+        player.setCurrentRoom(level.getRoom("bedroom"));
     }
 }
 

@@ -12,9 +12,9 @@ public class LookCommand implements Command {
     public boolean execute() {
         System.out.println("You can go to: \n" + player.getCurrentRoom().getNeighborNames() + "\n");
         System.out.print("Items in the room: \n" + player.getCurrentRoom().displayItems());
-        if (player.getCurrentRoom().getItems().size() == 0) {
+        if (player.getCurrentRoom().getItems().size() == 0)
             System.out.println("(none)");
-        } else System.out.println();
+        System.out.println();
         return true;
     }
 }
