@@ -59,7 +59,6 @@ public class Main {
     }
 
     private static void initiateLevel() {
-
         level.addRoom("hall", "a really long, big black... hallway");
         level.addRoom("closet", "there is nothing in the closet");
         level.addRoom("dungeon", "it is very dark and cold here...");
@@ -74,6 +73,5 @@ public class Main {
         player.setCurrentRoom(level.getRoom("bedroom"));
 
         level.createRandomCreatures(5);
-
     }
 }
