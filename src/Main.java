@@ -6,6 +6,14 @@ public class Main {
     private static Level level;
     private static Player player;
 
+    public static String getFirstRoom(String input) {
+        return input.substring(input.indexOf(" ") + 1, input.indexOf(" and "));
+    }
+
+    public static String getSecondRoom(String input) {
+        return input.substring(input.indexOf(" and ") + 5);
+    }
+
     public static void main(String[] args) {
         player = new Player("yo", "bunty");
         level = new Level(player);
@@ -31,6 +39,7 @@ public class Main {
         commands.put("take", new TakeCommand(level));
         commands.put("look", new LookCommand(player));
         commands.put("add-room", new AddRoomCommand(level));
+        commands.put("connect", new ConnectRoomsCommand(level));
     }
 
     private static Command lookUpCommand(String response) {
