@@ -22,6 +22,10 @@ public class goToCommand implements Command {
         if (level.getRoom(roomName) == null) return false;
         player.moveToRoom(roomName);
         System.out.println("You are now in the " + roomName);
+
+        level.updateAllCreatures();
+        player.getCurrentRoom().checkCreatures();
+        player.getCurrentRoom().checkNearbyCreatures();
         return true;
     }
 }

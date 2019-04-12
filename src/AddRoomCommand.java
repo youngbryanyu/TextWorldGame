@@ -16,7 +16,8 @@ public class AddRoomCommand implements Command {
 
     public boolean execute() {
         level.addRoom(roomName);
-        System.out.println("You created the " + roomName);
+        System.out.println("You created the " + roomName + " and connected it to your current room");
+        level.addUndirectedEdge(level.getPlayer().getCurrentRoom().getName(), roomName);
         return true;
     }
 }

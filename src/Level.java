@@ -55,16 +55,16 @@ public class Level {
     }
 
     public void createChicken(Room room) {
-        room.createCreature(new Chicken(room));
+        room.addCreature(new Chicken(room));
     }
 
 
     public void createPopStar(Room room) {
-        room.createCreature(new Popstar(room, player));
+        room.addCreature(new Popstar(room, player));
     }
 
     public void createWumpus(Room room) {
-        room.createCreature(new Wumpus(room, player));
+        room.addCreature(new Wumpus(room, player));
     }
 
     public void createRandomCreatures(int numCreatures) {
@@ -119,7 +119,8 @@ public class Level {
         public String getNeighborNames() {
             String names = "";
             for (Room n : neighbors.values()) {
-                names += "-> " + n.getName() + " >> " + n.getDescription() + "\n";
+                names += "-> " + n.getName() + " ";
+                if (!n.getDescription().equals("")) names += ">> " + n.getDescription() + "\n";
             }
             if (names.length() > 1) return names.substring(0, names.length() - 1);
             return "";
@@ -157,7 +158,8 @@ public class Level {
         public String displayItems() {
             String items = "";
             for (Item item : this.items) {
-                items += "-> " + item.getName() + " >> " + item.getDescription() + "\n";
+                items += "-> " + item.getName() + " ";
+                if (!item.getDescription().equals("")) items += ">> " + item.getDescription() + "\n";
             }
             if (items.length() > 1) return items.substring(0, items.length() - 1);
             return items;
@@ -204,7 +206,7 @@ public class Level {
 
         public void removeCreature(Creature c) {
             creatures.remove(c);
-            updateCreatureCount(c);
+            incrementCreatureCount(c);
         }
 
         public Level.Room getRandomNeighbor() {
@@ -277,12 +279,12 @@ public class Level {
             return nonCommonNeighbors;
         }
 
-        public void createCreature(Creature c) {
+        public void addCreature(Creature c) {
             creatures.add(c);
-            updateCreatureCount(c);
+            incrementCreatureCount(c);
         }
 
-        private void updateCreatureCount(Creature c) {
+        public void incrementCreatureCount(Creature c) {
             if (c instanceof Chicken) {
                 numChickens++;
             } else if (c instanceof Wumpus) {
@@ -291,5 +293,56 @@ public class Level {
                 numPopstars++;
             }
         }
+
+        public void decrementCreatureCount(Creature c) {
+            if (c instanceof Chicken) {
+                numChickens--;
+            } else if (c instanceof Wumpus) {
+                numWumpuses--;
+            } else if (c instanceof Popstar) {
+                numPopstars--;
+            }
+        }
+
+        public int getNumChickens() {
+            return numChickens;
+        }
+
+        public int getNumWumpuses() {
+            return numWumpuses;
+        }
+
+        public int getNumPopstars() {
+            return numPopstars;
+        }
+
+        public void checkCreatures() {
+            if (numChickens == 1)
+                System.out.println("There is a chicken in the room!");
+            else if (numChickens > 1)
+                System.out.println("There are " + numChickens + " chickens in the room!");
+            if (numWumpuses == 1)
+                System.out.println("There is a wumpus in the room!");
+            else if (numWumpuses > 1)
+                System.out.println("There are " + numWumpuses + " wumpuses in the room!");
+            if (numPopstars == 1)
+                System.out.println("There is a popstar in the room!");
+            else if (numPopstars > 1)
+                System.out.println("There are " + numPopstars + " popstars in the room!");
+        }
+
+        public void checkNearbyCreatures() {
+            boolean popstar = false, wumpus = true;
+            for (Room room : neighbors.values()) {
+                if (room.getNumPopstars() > 0)
+                    popstar = true;
+                if (room.getNumWumpuses() > 0)
+                    wumpus = true;
+            }
+            if (popstar) System.out.println("There appears to be a popstar nearby...");
+            if (wumpus) System.out.println("There appears to be a wumpus nearby...");
+        }
     }
+
 }
+
