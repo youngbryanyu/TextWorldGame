@@ -14,19 +14,23 @@ public class Main {
         initCommands();
 
         String response = "";
-        Scanner s = new Scanner(System.in);
+        Scanner input = new Scanner(System.in);
 
-        System.out.println("> ");
+        do {
+            System.out.println("> ");
+            response = input.nextLine();
 
-        Command command = lookUpCommand(response); // init
-        command.execute();
+            Command command = lookUpCommand(response); // init
+            command.execute();
 
+        } while (!response.equals("quit")); // TODO maybe do quit command
 
     }
 
     public static void initCommands() {
         commands.put("take", new TakeCommand(level));
         commands.put("look", new LookCommand(player));
+        commands.put("add-room", new AddRoomCommand(level));
     }
 
     private static Command lookUpCommand(String response) {

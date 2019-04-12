@@ -15,6 +15,10 @@ public class Level {
         rooms.put(name, new Room(name, description));
     }
 
+    public void addRoom(String name) {
+        rooms.put(name, new Room(name, ""));
+    }
+
     public void addDirectedEdge(String name1, String name2) {
         Room room1 = getRoom(name1);
         Room room2 = getRoom(name2);
