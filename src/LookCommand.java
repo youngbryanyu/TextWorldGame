@@ -1,5 +1,5 @@
 public class LookCommand implements Command {
-    Player player;
+    private Player player;
 
     public LookCommand(Player player) {
         this.player = player;

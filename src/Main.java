@@ -33,6 +33,7 @@ public class Main {
         commands.put("look", new LookCommand(player));
         commands.put("add-room", new AddRoomCommand(level));
         commands.put("connect", new ConnectRoomsCommand(level));
+        commands.put("go-to", new goToCommand(player, level));
     }
 
     private static Command lookUpCommand(String response) {

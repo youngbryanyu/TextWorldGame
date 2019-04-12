@@ -1,6 +1,6 @@
 public class TakeCommand implements Command {
-    Level level;
-    String itemName;
+    private Level level;
+    private String itemName;
 
     public TakeCommand(Level level) {
         this.level = level;

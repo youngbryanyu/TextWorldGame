@@ -1,6 +1,6 @@
 public class AddRoomCommand implements Command {
-    Level level;
-    String roomName;
+    private Level level;
+    private String roomName;
 
     public AddRoomCommand(Level level) {
         this.level = level;
