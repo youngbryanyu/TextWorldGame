@@ -34,6 +34,13 @@ public class Player {
         return null;
     }
 
+    public boolean dropItem(String name) {
+        Item item = removeItem(name);
+        if(item == null) return false;
+        getCurrentRoom().addItem(item);
+        return true;
+    }
+
     public boolean destroyItem(String name) {
         for (Item item : items) {
             if (item.getName().equals(name)) {

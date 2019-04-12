@@ -16,6 +16,7 @@ public class AddRoomCommand implements Command {
 
     public boolean execute() {
         level.addRoom(roomName);
+        System.out.println("You created the " + roomName);
         return true;
     }
 }

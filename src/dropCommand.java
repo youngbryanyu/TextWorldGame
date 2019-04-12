@@ -1,8 +1,8 @@
-public class TakeCommand implements Command {
+public class dropCommand implements Command {
     private Player player;
     private String itemName;
 
-    public TakeCommand(Player player) {
+    public dropCommand(Player player) {
         this.player = player;
     }
 
@@ -15,9 +15,9 @@ public class TakeCommand implements Command {
     }
 
     public boolean execute() {
-        boolean success = player.takeItem(itemName);
+        boolean success = player.dropItem(itemName);
         if (success)
-            System.out.println("You took the " + itemName);
+            System.out.println("You dropped the " + itemName);
         return success;
     }
 }

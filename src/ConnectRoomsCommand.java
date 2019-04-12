@@ -23,6 +23,7 @@ public class ConnectRoomsCommand implements Command {
     public boolean execute() {
         if (level.getRoom(room1Name) == null || level.getRoom(room2Name) == null) return false;
         level.addUndirectedEdge(room1Name, room2Name);
+        System.out.println("You connected the " + room1Name + " and the " + room2Name);
         return true;
     }
 }

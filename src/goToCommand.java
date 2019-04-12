@@ -21,6 +21,7 @@ public class goToCommand implements Command {
     public boolean execute() {
         if (level.getRoom(roomName) == null) return false;
         player.moveToRoom(roomName);
+        System.out.println("You are now in the " + roomName);
         return true;
     }
 }

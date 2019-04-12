@@ -29,11 +29,12 @@ public class Main {
     }
 
     public static void initCommands() {
-        commands.put("take", new TakeCommand(level));
+        commands.put("take", new TakeCommand(player));
         commands.put("look", new LookCommand(player));
         commands.put("add-room", new AddRoomCommand(level));
         commands.put("connect", new ConnectRoomsCommand(level));
         commands.put("go-to", new goToCommand(player, level));
+        commands.put("drop", new dropCommand(player));
     }
 
     private static Command lookUpCommand(String response) {
@@ -44,7 +45,6 @@ public class Main {
         if (c == null) return new EmptyCommand();
 
         c.init(response);
-
         return c;
     }
 
@@ -58,7 +58,8 @@ public class Main {
         level.addRoom("hall", "...");
         level.addRoom("bedroom", "sleep here");
         level.addUndirectedEdge("hall", "bedroom");
-        player.moveToRoom("bedroom");
+        player.setCurrentRoom(level.getRoom("bedroom"));
+        level.getRoom("bedroom").addItem("water");
     }
 }
 
