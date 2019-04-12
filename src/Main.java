@@ -58,7 +58,7 @@ public class Main {
         level.addRoom("hall", "...");
         level.addRoom("bedroom", "sleep here");
         level.addUndirectedEdge("hall", "bedroom");
-        player.setCurrentRoom(level.getRoom("bedroom"));
+        player.moveToRoom("bedroom");
     }
 }
 
