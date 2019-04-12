@@ -39,12 +39,11 @@ public class Main {
 
     private static Command lookUpCommand(String response) {
         String commandWord = getFirstWordIn(response);
-        if (commandWord.equals("")) return new EmptyCommand();
-
         Command c = commands.get(commandWord);
-        if (c == null) return new EmptyCommand();
 
+        if (c == null) return new EmptyCommand();
         c.init(response);
+
         return c;
     }
 
