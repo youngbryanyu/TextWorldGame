@@ -74,4 +74,5 @@ public class Main {
 
         level.createRandomCreatures(5);
     }
+
 }

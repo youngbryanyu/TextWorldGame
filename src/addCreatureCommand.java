@@ -11,7 +11,7 @@ public class addCreatureCommand implements Command {
         if (getSecondWordIn(input).equals("chicken"))
             creature = new Chicken(player.getCurrentRoom());
         else if (getSecondWordIn(input).equals("wumpus"))
-            creature = new Wumpus(player.getCurrentRoom(), player);
+            creature = new Wumpus(player.getCurrentRoom());
         else if (getSecondWordIn(input).equals("popstar"))
             creature = new Popstar(player.getCurrentRoom(), player);
     }

@@ -64,7 +64,7 @@ public class Level {
     }
 
     public void createWumpus(Room room) {
-        room.addCreature(new Wumpus(room, player));
+        room.addCreature(new Wumpus(room));
     }
 
     public void createRandomCreatures(int numCreatures) {
